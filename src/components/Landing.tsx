@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { CONFIGS, type Config } from '@/data/hands';
+import { BeginnerGuide } from '@/components/BeginnerGuide';
+import { BookOpen } from 'lucide-react';
 
 interface LandingProps {
   onEnter: (config: Config) => void;
@@ -26,6 +28,7 @@ export function Landing({ onEnter }: LandingProps) {
   const initialPlayers = CONFIGS[0].players;
   const [players, setPlayers] = useState(initialPlayers);
   const [stack, setStack] = useState(() => getStacks(initialPlayers)[0].value);
+  const [showGuide, setShowGuide] = useState(false);
 
   const playerOptions = getPlayers();
   const stackOptions = getStacks(players);
@@ -106,6 +109,19 @@ export function Landing({ onEnter }: LandingProps) {
         >
           View Ranges
         </button>
+
+        {/* Guide toggle */}
+        <div className="flex justify-center">
+          <button
+            type="button"
+            onClick={() => setShowGuide(v => !v)}
+            className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+          >
+            <BookOpen className="size-3.5" />
+            {showGuide ? '收起教程' : '新手教程'}
+          </button>
+        </div>
+        {showGuide && <BeginnerGuide />}
       </div>
     </div>
   );

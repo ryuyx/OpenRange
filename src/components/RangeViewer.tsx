@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { type ComputedConfig, type Position } from '@/data/hands';
 import { RangeTable } from '@/components/RangeTable';
+import { BeginnerGuide } from '@/components/BeginnerGuide';
+import { BookOpen } from 'lucide-react';
 
 interface RangeViewerProps {
   config: ComputedConfig;
@@ -9,6 +11,7 @@ interface RangeViewerProps {
 
 export function RangeViewer({ config, onBack }: RangeViewerProps) {
   const [activeKey, setActiveKey] = useState<Position>(config.positions[0].key);
+  const [showGuide, setShowGuide] = useState(false);
   const active = config.positions.find(p => p.key === activeKey)!;
 
   return (
@@ -25,6 +28,23 @@ export function RangeViewer({ config, onBack }: RangeViewerProps) {
           </button>
         </div>
       </div>
+
+      {/* Guide toggle */}
+      <div className="max-w-4xl mx-auto px-4 pt-4 flex justify-end">
+        <button
+          type="button"
+          onClick={() => setShowGuide(v => !v)}
+          className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+        >
+          <BookOpen className="size-3.5" />
+          {showGuide ? '收起教程' : '新手教程'}
+        </button>
+      </div>
+      {showGuide && (
+        <div className="px-4 pt-3">
+          <BeginnerGuide />
+        </div>
+      )}
 
       {/* Content */}
       <div className="py-8 px-4">
