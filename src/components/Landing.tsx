@@ -47,7 +47,7 @@ export function Landing({ onEnter }: LandingProps) {
   };
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center px-4">
+    <div className="min-h-screen bg-background flex flex-col items-center justify-center px-4 py-16">
       <div className="text-center space-y-10">
         <div className="space-y-3">
           <p className="text-sm text-muted-foreground tracking-wide uppercase">
@@ -121,8 +121,13 @@ export function Landing({ onEnter }: LandingProps) {
             {showGuide ? '收起教程' : '新手教程'}
           </button>
         </div>
-        {showGuide && <BeginnerGuide />}
       </div>
+
+      {showGuide && (
+        <div className="mt-8 w-full">
+          <BeginnerGuide />
+        </div>
+      )}
     </div>
   );
 }
