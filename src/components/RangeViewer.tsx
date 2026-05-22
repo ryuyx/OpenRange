@@ -37,7 +37,7 @@ export function RangeViewer({ config, onBack }: RangeViewerProps) {
           className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
         >
           <BookOpen className="size-3.5" />
-          {showGuide ? '收起教程' : '新手教程'}
+          {showGuide ? '收起教程' : '快速入门'}
         </button>
       </div>
       {showGuide && (

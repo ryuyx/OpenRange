@@ -51,14 +51,16 @@ function SeatBadge({ x, y, seat }: { x: number; y: number; seat: Seat }) {
 }
 
 export function TableDiagram({ seats, label }: TableDiagramProps) {
-  // Evenly distribute seats around the ellipse from top-left going clockwise
   const cx = 140;
   const cy = 100;
   const rx = 115;
   const ry = 72;
   const n = seats.length;
-  // Start from top (270°) and go clockwise
-  const startAngle = 270 - (180 / n) * (n - 1) / 2;
+  // Seat placement radius – kept inside viewBox with room for the 14px circle
+  const seatRx = rx + 10;
+  const seatRy = ry + 6;
+  // Distribute seats clockwise, centered at the top (270° in SVG coords)
+  const startAngle = 90 + (180 / n);
 
   return (
     <div className="my-3">
@@ -103,8 +105,8 @@ export function TableDiagram({ seats, label }: TableDiagramProps) {
 
         {/* Seat badges */}
         {seats.map((seat, i) => {
-          const angle = startAngle - (360 / n) * i;
-          const { x, y } = ellipsePoint(cx, cy, rx + 28, ry + 20, angle);
+          const angle = startAngle + (360 / n) * i;
+          const { x, y } = ellipsePoint(cx, cy, seatRx, seatRy, angle);
           return <SeatBadge key={seat.label} x={x} y={y} seat={seat} />;
         })}
       </svg>
