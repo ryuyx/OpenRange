@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ChevronDown, ChevronRight } from 'lucide-react';
+import { TableDiagram, SEATS_6MAX, SEATS_9MAX } from '@/components/TableDiagram';
 
 const SECTIONS = [
   {
@@ -53,24 +54,39 @@ const SECTIONS = [
   {
     title: '位置（Position）是什么？',
     content: (
-      <div className="space-y-2">
-        <p>6 人桌的位置从右到左依次是：</p>
-        <div className="grid grid-cols-2 gap-2 text-sm">
-          {[
-            ['LJ (Lojack)', '枪口位，最紧'],
-            ['HJ (Hijack)', '劫持位'],
-            ['CO (Cutoff)', '关煞位'],
-            ['BTN (Button)', '庄位，最松'],
-            ['SB (Small Blind)', '小盲位'],
-          ].map(([pos, desc]) => (
-            <div key={pos} className="flex gap-1.5">
-              <span className="font-semibold whitespace-nowrap">{pos}</span>
-              <span className="text-muted-foreground">{desc}</span>
-            </div>
-          ))}
+      <div className="space-y-4">
+        <div>
+          <p className="text-sm text-muted-foreground mb-1">
+            6 人桌座位分布（<span className="text-foreground font-medium">深色</span> = 可主动入池的位置）：
+          </p>
+          <TableDiagram seats={SEATS_6MAX} label="6-Max" />
+          <div className="grid grid-cols-2 gap-x-4 gap-y-0.5 text-xs mt-2">
+            {SEATS_6MAX.filter(s => s.isRFI).map(s => (
+              <div key={s.label} className="flex gap-1.5">
+                <span className="font-semibold whitespace-nowrap">{s.label}</span>
+                <span className="text-muted-foreground">{s.desc}</span>
+              </div>
+            ))}
+          </div>
         </div>
-        <p className="text-sm text-muted-foreground mt-2">
-          越靠近 BTN（庄位），位置越好，可以玩越多的牌。你可以点击上方的位置标签来切换查看。
+
+        <div>
+          <p className="text-sm text-muted-foreground mb-1">
+            9 人桌座位分布：
+          </p>
+          <TableDiagram seats={SEATS_9MAX} label="9-Max" />
+          <div className="grid grid-cols-2 gap-x-4 gap-y-0.5 text-xs mt-2">
+            {SEATS_9MAX.filter(s => s.isRFI).map(s => (
+              <div key={s.label} className="flex gap-1.5">
+                <span className="font-semibold whitespace-nowrap">{s.label}</span>
+                <span className="text-muted-foreground">{s.desc}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <p className="text-xs text-muted-foreground">
+          越靠近 BTN（庄位），位置越好，可以玩越多的牌。BB（大盲）是被迫下注的位置，不在 RFI 范围数据中。
         </p>
       </div>
     ),
@@ -99,7 +115,7 @@ export function BeginnerGuide() {
 
   return (
     <div className="max-w-2xl mx-auto bg-muted/30 rounded-xl border p-5">
-      <h2 className="text-sm font-semibold text-foreground mb-3">新手教程</h2>
+      <h2 className="text-sm font-semibold text-foreground mb-3">快速入门</h2>
       <div className="divide-y">
         {SECTIONS.map((section, idx) => (
           <div key={idx}>
