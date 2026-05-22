@@ -5,6 +5,7 @@ import { BookOpen } from 'lucide-react';
 
 interface LandingProps {
   onEnter: (config: Config) => void;
+  onRankings: () => void;
 }
 
 interface Option {
@@ -24,7 +25,7 @@ function getStacks(players: number): Option[] {
     .map(v => ({ value: v, label: `${v} BB` }));
 }
 
-export function Landing({ onEnter }: LandingProps) {
+export function Landing({ onEnter, onRankings }: LandingProps) {
   const initialPlayers = CONFIGS[0].players;
   const [players, setPlayers] = useState(initialPlayers);
   const [stack, setStack] = useState(() => getStacks(initialPlayers)[0].value);
@@ -111,14 +112,21 @@ export function Landing({ onEnter }: LandingProps) {
         </button>
 
         {/* Guide toggle */}
-        <div className="flex justify-center">
+        <div className="flex items-center justify-center gap-4">
           <button
             type="button"
             onClick={() => setShowGuide(v => !v)}
             className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
           >
             <BookOpen className="size-3.5" />
-            {showGuide ? '收起教程' : '新手教程'}
+            {showGuide ? '收起教程' : '快速入门'}
+          </button>
+          <button
+            type="button"
+            onClick={onRankings}
+            className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+          >
+            牌力排行
           </button>
         </div>
       </div>
